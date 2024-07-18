@@ -2,16 +2,16 @@
 
 @section('content')
     <div class="container">
-        <h1>Projects</h1>
-        <a href="{{ route('projects.create') }}" class="btn btn-primary">Add Project</a>
+        <h1>Progetti</h1>
+        <a href="{{ route('admin.projects.create') }}" class="btn btn-primary">Aggiungi Progetto</a>
         <ul>
             @foreach($projects as $project)
                 <li>
-                    <a href="{{ route('projects.show', $project->id) }}">{{ $project->title }}</a>
-                    <form action="{{ route('projects.destroy', $project->id) }}" method="POST" style="display: inline;">
+                    <a href="{{ route('admin.projects.show', $project->id) }}">{{ $project->title }}</a>
+                    <form action="{{ route('admin.projects.destroy', $project->id) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Elimina</button>
                     </form>
                 </li>
             @endforeach

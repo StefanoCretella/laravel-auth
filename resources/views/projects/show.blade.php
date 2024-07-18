@@ -7,6 +7,6 @@
         @if ($project->image)
             <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
         @endif
-        <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-primary">Edit</a>
+        <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-primary">Modifica</a>
     </div>
 @endsection
