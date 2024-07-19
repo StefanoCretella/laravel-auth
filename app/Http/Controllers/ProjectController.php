@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -26,9 +27,13 @@ class ProjectController extends Controller
             'image' => 'nullable|image|max:2048'
         ]);
 
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
         Project::create($data);
 
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with('status', 'Progetto creato con successo');
     }
 
     public function show(Project $project)
@@ -49,15 +54,28 @@ class ProjectController extends Controller
             'image' => 'nullable|image|max:2048'
         ]);
 
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($project->image) {
+                Storage::disk('public')->delete($project->image);
+            }
+
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
         $project->update($data);
 
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with('status', 'Progetto aggiornato con successo');
     }
 
     public function destroy(Project $project)
     {
+        if ($project->image) {
+            Storage::disk('public')->delete($project->image);
+        }
+
         $project->delete();
 
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with('status', 'Progetto eliminato con successo');
     }
 }

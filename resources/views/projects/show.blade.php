@@ -1,12 +1,24 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="container">
-        <h1>{{ $project->title }}</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizza Progetto</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">{{ $project->title }}</h1>
         <p>{{ $project->description }}</p>
-        @if ($project->image)
-            <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
+        @if($project->image)
+            <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="img-fluid">
         @endif
-        <a href="{{ route('admin.projects.edit', $project->id) }}" class="btn btn-primary">Modifica</a>
+        <a href="{{ route('projects.index') }}" class="btn btn-primary mt-3">Torna alla Lista</a>
     </div>
-@endsection
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

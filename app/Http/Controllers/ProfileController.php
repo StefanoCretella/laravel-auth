@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -26,11 +27,13 @@ class ProfileController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 
         return redirect()->route('profile.edit')->with('status', 'Profilo aggiornato con successo');
@@ -46,6 +49,6 @@ class ProfileController extends Controller
 
         $user->delete();
 
-        return redirect('/')->with('status', 'Account eliminato con successo');
+        return response()->json(['status' => 'success']);
     }
 }

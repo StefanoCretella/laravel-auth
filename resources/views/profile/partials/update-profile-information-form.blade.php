@@ -1,40 +1,27 @@
-<form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
-    @csrf
-    @method('patch')
+@extends('layouts.app')
 
-    <div>
-        <label for="name">{{ __('Nome') }}</label>
-        <input id="name" name="name" type="text" class="mt-1 block w-full" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
-        @error('name')
-            <div class="text-red-500 mt-2">{{ $message }}</div>
-        @enderror
-    </div>
+@section('content')
+    <h2>Modifica Profilo</h2>
+    <form method="POST" action="{{ route('profile.update') }}">
+        @csrf
+        @method('PATCH')
 
-    <div>
-        <label for="email">{{ __('Email') }}</label>
-        <input id="email" name="email" type="email" class="mt-1 block w-full" value="{{ old('email', $user->email) }}" required autocomplete="username">
-        @error('email')
-            <div class="text-red-500 mt-2">{{ $message }}</div>
-        @enderror
+        <!-- Campi per la modifica del profilo -->
+        <div>
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+        </div>
+        <button type="submit">Salva modifiche</button>
+    </form>
 
-        @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-            <div>
-                <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                    {{ __('Il tuo indirizzo email non è verificato.') }}
-
-                    <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-indigo-200">
-                        {{ __('Clicca qui per inviare di nuovo l\'email di verifica.') }}
-                    </button>
-                </p>
-            </div>
-        @endif
-    </div>
-
-    <div class="flex items-center gap-4">
-        <button type="submit" class="btn btn-primary">{{ __('Salva') }}</button>
-
-        @if (session('status') === 'profile-updated')
-            <p class="text-sm text-gray-600">{{ __('Profilo aggiornato con successo.') }}</p>
-        @endif
-    </div>
-</form>
+    <!-- Form per eliminare l'account -->
+    <form method="POST" action="{{ route('profile.destroy') }}">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Elimina Account</button>
+    </form>
+@endsection
